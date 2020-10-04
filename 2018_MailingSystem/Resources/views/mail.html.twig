@@ -1,0 +1,67 @@
+{% extends "::base.html.twig" %}
+{% block title %}
+    Phinedo - {% if type == "modification" %} Modification {% else %}Création {% endif %} d'une mailing
+{% endblock %}
+{% block contenu %}
+    {% if type == "modification" %}
+    {% endif %}
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">
+        {% if type == "modification" %}
+            Modification d'une mailing:
+        {% else %}
+            Création d'une mailing:
+        {% endif %}
+            </h3>
+    </div>
+    <div class="panel-body">
+        {{ form_start(form) }}
+            <div>
+                {{ form_label(form.mail, "Un mail à envoyer la mailing (facultatif): ") }}
+                {{ form_errors(form.mail) }}
+                {{ form_widget(form.mail) }}
+            </div>
+            <div>
+                {{ form_label(form.objet, "Objet du mail: ") }}
+                {{ form_errors(form.objet) }}
+                {{ form_widget(form.objet) }}
+            </div>
+            <div>
+                {{ form_label(form.content, "Contenu de la mailing : ") }}
+                {{ form_errors(form.content) }}
+                {{ form_widget(form.content) }}
+            </div>
+            <div style="position:relative;">
+                {{ form_label(form.dateEnvoi, "Date d\'envoi du mail : ") }}
+                {{ form_errors(form.dateEnvoi) }}
+                {{ form_widget(form.dateEnvoi) }}
+            </div>
+            <div>
+                {{ form_label(form.tous, "Envoyer à toute la base de donnée : ") }}
+                {{ form_errors(form.tous) }}
+                {{ form_widget(form.tous) }}
+            </div>
+            <div>
+                {% if type is defined and type == "modification" %}
+                        {{ form_widget(form.save, { 'label': 'Modifier la mailing' }) }}
+                    {% else %}
+                        {{ form_widget(form.save, { 'label': 'Créer la mailing' }) }}
+                    {% endif %}
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        document.emojiSource = '{{ asset("images/smileys/") }}';
+        sujet = $('#phinedo_outilsbundle_mailing_content');
+        startSummernote(sujet, "{{ path('phinedo_image_upload_ajax') }}", "classique");
+    });
+    $(function () {
+        $('#phinedo_outilsbundle_mailing_dateEnvoi').datetimepicker({
+            format: "YYYY-MM-DD HH:mm:ss",
+            locale: "fr"
+        });
+    });
+</script>
+{% endblock %}

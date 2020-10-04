@@ -1,0 +1,16 @@
+{% extends "::base.html.twig" %}
+{% block title %}
+    Voir une mailing
+{% endblock %}
+{% block contenu %}
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Mailing du {{ mail.dateEnvoi|date('d-m-Y') }} - {% if mail.state %} Envoyé {% else %} Non envoyé {% endif %}</h3>
+        </div>
+        <div class="panel-body">
+            {{mail.content|raw}}
+        </div>
+    </div>
+
+{% endblock %}

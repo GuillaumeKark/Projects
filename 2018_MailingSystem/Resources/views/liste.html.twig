@@ -1,0 +1,50 @@
+{% extends "::base.html.twig" %}
+{% block title %}
+    Liste des mailings
+{% endblock %}
+{% block contenu %}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Liste des webmails</h3>
+  </div>
+  <div class="panel-body">
+    <ul class="list-group">
+        {% for mail in liste %}
+            <li class="list-group-item">
+                <a title="Voir raw" href="{{ path('phinedo_outils_mailing_voir_raw', {'mailId': mail.id}) }}"><span class="glyphicon glyphicon-file"></span></a>
+                <a title="Voir" href="{{ path('phinedo_outils_mailing_voir', {'mailId': mail.id}) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                <a title="Modifier" href="{{ path('phinedo_outils_mailing_modifier', {'mailId': mail.id}) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                <a title="Repost" href="{{ path('phinedo_outils_mailing_repost', {'mailId': mail.id, 'repost': 1}) }}"><span class="glyphicon glyphicon-repeat"></span></a>
+                    
+                {{ mail.objet }} - {{ mail.dateEnvoi|date('d-m-Y H:i:s') }}
+
+                <span class="glyphicon {% if mail.state %} glyphicon-ok {% else %} glyphicon-hourglass {% endif %}" style="color:{% if mail.state %} green {% else %} orange {% endif %}"></span>
+                
+            </li>
+        {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $('.pagination a').on('click', function(e){
+        e.preventDefault();
+        var id = $(this).attr('data-id');
+        var path = "{{ path('phinedo_outils_mailing_list_ajax', {'page': '123456789101112'}) }}";
+
+        path = path.replace('123456789101112', id);
+
+        $.ajax({
+                type: "GET",
+                url: path,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+    });
+</script>
+
+{% endblock %}
